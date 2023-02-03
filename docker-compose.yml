@@ -1,0 +1,8 @@
+version: "3"
+services:
+  httpd:
+    build: .
+    image: httpd:hello.2048
+    ports:
+      - "80:80"
+
