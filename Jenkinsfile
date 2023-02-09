@@ -5,17 +5,18 @@ pipeline {
     stages {
         stage('IMAGE'){
             steps{
-                withCredentials([sshUserPrivateKey(credentialsId:'GITHUB', keyFileVariable: 'GIT_SSH_KEY')]) {
+                
                 sh '''
                 ssh -T git@github.com
                 docker-compose build
                 git tag 1.0${BUILD_NUMBER}
-                git remote add origin git@github.com:alvarodcr/hello-2048.git
-                git push --tags
                 docker tag ghcr.io/alvarodcr/hello-2048/hello2048:v1 ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER}
                 '''
-                }
+                sshagent(['GITHUB']) {
+                    sh('git push git@github.com:alvarodcr/hello-2048.git --tags')
+                }               
             }
+                 
         }  
         
         stage('GIT_LOGIN'){
