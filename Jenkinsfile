@@ -32,7 +32,6 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId:'ssh-amazon', keyFileVariable: 'AWS_SSH_KEY')]) {
 			sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'mdkir app_hello-2048_${BUILD_NUMBER} && cd app_hello-2048_${BUILD_NUMBER} && touch docker-compose.yml && cat $dockerCompose > docker-compose.yml'"
 			sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'docker pull ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER} && docker-compose up -d'"
-             
                 }
             }
         }
