@@ -3,7 +3,7 @@ def dockerCompose = "version: \"3\"\nservices:\n  httpd:\n    build: .\n    imag
 pipeline {
     agent any
     options {timestamps()}
-  	
+	
     stages {
         stage('IMAGE'){
             steps{
