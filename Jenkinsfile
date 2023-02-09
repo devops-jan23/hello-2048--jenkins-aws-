@@ -1,3 +1,5 @@
+def dockerCompose = "version: \"3\"\nservices:\n  httpd:\n    build: .\n    image: ghcr.io/alvarodcr/hello-docker/hello2048:v1\n    ports:\n      - \"80:80\""
+
 pipeline {
     agent any
     options {timestamps()}
@@ -31,10 +33,7 @@ pipeline {
         stage('SSH_AWS') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId:'ssh-amazon', keyFileVariable: 'AWS_SSH_KEY')]) {
-		
-             		sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'mdkir app_${BUILD_NUMBER} && cd app_${BUILD_NUMBER} && touch docker-compose.yml && echo -e "version: \"3\"\nservices:\n  httpd:\n    build: .\n    image: ghcr.io/alvarodcr/hello-docker/hello2048:1.0.${BUILD_NUMBER}\n    ports:\n      - \"80:80\"" >> docker-compose.yml'"  	
-               
-			
+			sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'mdkir app_hello-2048_${BUILD_NUMBER} && cd app_hello-2048_${BUILD_NUMBER} && touch docker-compose.yml && cat dockerCompose > docker-compose.yml'"
 			sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'docker pull ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER} && docker-compose up -d'"
              
                 }
