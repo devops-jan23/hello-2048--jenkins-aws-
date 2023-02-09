@@ -21,7 +21,7 @@ pipeline {
         stage('GIT_LOGIN'){
             steps{ 
                 withCredentials([string(credentialsId:'ghrc-token', variable: 'GIT_TOKEN')]) {
-                    sh 'echo $GIT_TOKEN | docker login ghcr.io .u alvarodcr --password-stdin'
+                    sh 'echo $GIT_TOKEN | docker login ghcr.io -u alvarodcr --password-stdin'
                     sh 'docker push ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER}'
                 }
             }
