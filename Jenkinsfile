@@ -6,6 +6,7 @@ pipeline {
         stage('IMAGE'){
             steps{
                 sh'''
+		ssh -T git@github.com
                 docker-compose build
                 git tag 1.0${BUILD_NUMBER}
                 git push --tags
