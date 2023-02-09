@@ -1,4 +1,4 @@
-def dockerCompose = "version: \"3\"\nservices:\n  httpd:\n    build: .\n    image: ghcr.io/alvarodcr/hello-docker/hello2048:v1\n    ports:\n      - \"80:80\""
+def dockerCompose = "version: \"3\"\nservices:\n  httpd:\n    build: .\n    image: ghcr.io/alvarodcr/hello-docker/hello2048:${BUILD_NUMBER}\n    ports:\n      - \"80:80\""
 
 pipeline {
     agent any
