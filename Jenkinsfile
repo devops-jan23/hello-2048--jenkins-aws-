@@ -7,7 +7,6 @@ pipeline {
             steps{
                 
                 sh '''
-                ssh -T git@github.com
                 docker-compose build
                 git tag 1.0${BUILD_NUMBER}
                 docker tag ghcr.io/alvarodcr/hello-2048/hello2048:v1 ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER}
