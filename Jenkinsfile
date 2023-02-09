@@ -8,7 +8,7 @@ pipeline {
                 
                 sh '''
                 docker-compose build
-                git tag 1.0${BUILD_NUMBER}
+                git tag 1.0.${BUILD_NUMBER}
                 docker tag ghcr.io/alvarodcr/hello-2048/hello2048:v1 ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER}
                 '''
                 sshagent(['GITHUB']) {
@@ -31,8 +31,11 @@ pipeline {
         stage('SSH_AWS') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId:'ssh-amazon', keyFileVariable: 'AWS_SSH_KEY')]) {
-             
-                    sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'docker pull ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER} && docker run -td --rm -p 80:80 ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER}'"
+		
+             		sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'mdkir app_${BUILD_NUMBER} && cd app_${BUILD_NUMBER} && touch docker-compose.yml && echo -e "version: \"3\"\nservices:\n  httpd:\n    build: .\n    image: ghcr.io/alvarodcr/hello-docker/hello2048:v1\n    ports:\n      - \"80:80\"" >> docker-compose.yml'"  	
+               
+			
+			sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'docker pull ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER} && docker run -td --rm -p 80:80 ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER}'"
              
                 }
             }
