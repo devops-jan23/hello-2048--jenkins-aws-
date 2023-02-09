@@ -7,7 +7,6 @@ pipeline {
     stages {
         stage('IMAGE'){
             steps{
-                
                 sh '''
                 docker-compose build
                 git tag 1.0.${BUILD_NUMBER}
@@ -16,8 +15,7 @@ pipeline {
                 sshagent(['GITHUB']) {
                     sh('git push git@github.com:alvarodcr/hello-2048.git --tags')
                 }               
-            }
-                 
+            }      
         }  
         
         stage('GIT_LOGIN'){
@@ -28,8 +26,7 @@ pipeline {
 		}
             }
         }
-       
-
+      
         stage('SSH_AWS') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId:'ssh-amazon', keyFileVariable: 'AWS_SSH_KEY')]) {
@@ -41,6 +38,3 @@ pipeline {
         }
     }     
 }
-
-
-
