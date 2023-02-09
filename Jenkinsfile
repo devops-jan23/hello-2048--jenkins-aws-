@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId:'ssh-amazon', keyFileVariable: 'AWS_SSH_KEY')]) {
              
-                    sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'docker pull ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER} && docker run -td --rm -p 80:80 ghcr.io/alvarodcr/hello-2048/hello2048:v1'"
+                    sh "ssh -i $AWS_SSH_KEY ec2-user@18.203.102.209 'docker pull ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER} && docker run -td --rm -p 80:80 ghcr.io/alvarodcr/hello-2048/hello2048:1.0.${BUILD_NUMBER}'"
              
                 }
             }
