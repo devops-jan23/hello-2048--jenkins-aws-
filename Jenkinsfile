@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('IMAGE'){
             steps{
-                withCredentials([sshUserPrivateKey(credentialsId:'GIT_HUB', keyFileVariable: 'GIT_SSH_KEY')]) {
+                withCredentials([sshUserPrivateKey(credentialsId:'GITHUB', keyFileVariable: 'GIT_SSH_KEY')]) {
                 sh '''
                 ssh -T git@github.com
                 docker-compose build
