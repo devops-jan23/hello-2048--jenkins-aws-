@@ -1,4 +1,5 @@
-# hello-2048
+# hello-2048-aws--jenkins-terraform
 
 ## Objective
- Create `Dockerfile` and `docker-compose.yml` files to build a docker image that publishes the static content under `public_html/`. Optimize for size and upload the resulting image to ghcr.io.
+ Create `Jenkisfile` to deploy hello-2048 app into a AWS instance from Jenkins
+ 
